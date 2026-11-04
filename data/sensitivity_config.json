@@ -1,0 +1,612 @@
+{
+  "primary_bootstrap": {
+    "TEST": {
+      "replicates": 10000,
+      "seed": 2026091901,
+      "rng": "numpy.random.PCG64",
+      "sampling_unit": "TEST episode",
+      "sample_size": 400,
+      "replacement": true,
+      "paired_across_all_policies": true,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "quantile_method": "linear",
+      "differences": "G3 primary minus G0/G1 primary/G2 primary",
+      "metrics": [
+        "HERISK",
+        "ARR",
+        "MeanIEU",
+        "PaymentCompletion"
+      ],
+      "payment_denominator": "number of OUTBOUND_PAYMENT draws within each shared400-index replicate; never average nonpayment zeros",
+      "empty_payment_replicate": "STOP; do not silently resample, omit, or impute"
+    },
+    "CONFIRMATION": {
+      "differences": "G3 primary minus G0/G1 primary/G2 primary",
+      "empty_payment_replicate": "STOP; do not silently resample, omit, or impute",
+      "metrics": [
+        "HERISK",
+        "ARR",
+        "MeanIEU",
+        "PaymentCompletion"
+      ],
+      "paired_across_all_policies": true,
+      "payment_denominator": "payment-task draws within each shared2000-index replicate",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "quantile_method": "linear",
+      "replacement": true,
+      "replicates": 10000,
+      "rng": "numpy.random.PCG64",
+      "sample_size": 2000,
+      "sampling_unit": "confirmation episode",
+      "seed": 2026092003
+    }
+  },
+  "task_auc_bootstrap": {
+    "replicates": 2000,
+    "seed": 20261102,
+    "task_order": [
+      "DAPP_APPROVAL",
+      "PORTFOLIO_REBALANCE"
+    ],
+    "strata_order": [
+      0,
+      1
+    ],
+    "rng": "numpy.random.default_rng / PCG64; single stream continuing across tasks",
+    "quantile_method": "linear"
+  },
+  "calibration_size": {
+    "seed": 2026092504,
+    "rng": "PCG64",
+    "sample_sizes": [
+      100,
+      200,
+      300
+    ],
+    "replicates_each": 500,
+    "full_cal_reference": 400,
+    "full_cal_replicates": 1,
+    "alpha": "0.05",
+    "order": "lexicographic CAL episode_id; n outer, replicate inner; no replacement"
+  },
+  "risk_budget": {
+    "alphas": [
+      "0.025",
+      "0.050",
+      "0.075",
+      "0.100"
+    ],
+    "methods": [
+      "G2_NAIVE",
+      "G3_CRC"
+    ]
+  },
+  "composition": {
+    "pool_n": 2400,
+    "pool_order": "PRIMARY_TEST lexicographic ID then CONFIRMATION lexicographic ID",
+    "task_order": [
+      "PORTFOLIO_REBALANCE",
+      "OUTBOUND_PAYMENT",
+      "DAPP_APPROVAL",
+      "CAPITAL_PRESERVATION"
+    ],
+    "regime_order": [
+      "NORMAL",
+      "VOLATILE",
+      "THIN",
+      "CRASH"
+    ],
+    "reference_joint_probability": "1/16",
+    "weights": "w_i=q_task(task_i)*q_regime(regime_i)/(1/16); depends on category only, no empirical cell-count correction",
+    "estimator": "Self-normalized weighted means: HERISK=sum(w*h*e)/sum(w); ARR=sum(w*e)/sum(w); SARR=sum(w*(1-h)*e)/sum(w*(1-h)); HABR=sum(w*h*(1-e))/sum(w*h); MeanIEU=sum(w*u*e)/sum(w); PaymentCompletion=sum(w*is_payment*payment*e)/sum(w*is_payment). Burden=1-ARR.",
+    "specifications": [
+      {
+        "name": "NOMINAL_REFERENCE",
+        "family": "REFERENCE",
+        "task": [
+          ".25",
+          ".25",
+          ".25",
+          ".25"
+        ],
+        "regime": [
+          ".25",
+          ".25",
+          ".25",
+          ".25"
+        ]
+      },
+      {
+        "name": "DAPP_40",
+        "family": "DAPP",
+        "task": [
+          ".20",
+          ".20",
+          ".40",
+          ".20"
+        ],
+        "regime": [
+          ".25",
+          ".25",
+          ".25",
+          ".25"
+        ]
+      },
+      {
+        "name": "DAPP_55",
+        "family": "DAPP",
+        "task": [
+          ".15",
+          ".15",
+          ".55",
+          ".15"
+        ],
+        "regime": [
+          ".25",
+          ".25",
+          ".25",
+          ".25"
+        ]
+      },
+      {
+        "name": "DAPP_70",
+        "family": "DAPP",
+        "task": [
+          ".10",
+          ".10",
+          ".70",
+          ".10"
+        ],
+        "regime": [
+          ".25",
+          ".25",
+          ".25",
+          ".25"
+        ]
+      },
+      {
+        "name": "CRASH_40",
+        "family": "CRASH",
+        "task": [
+          ".25",
+          ".25",
+          ".25",
+          ".25"
+        ],
+        "regime": [
+          ".20",
+          ".20",
+          ".20",
+          ".40"
+        ]
+      },
+      {
+        "name": "CRASH_55",
+        "family": "CRASH",
+        "task": [
+          ".25",
+          ".25",
+          ".25",
+          ".25"
+        ],
+        "regime": [
+          ".15",
+          ".15",
+          ".15",
+          ".55"
+        ]
+      },
+      {
+        "name": "CRASH_70",
+        "family": "CRASH",
+        "task": [
+          ".25",
+          ".25",
+          ".25",
+          ".25"
+        ],
+        "regime": [
+          ".10",
+          ".10",
+          ".10",
+          ".70"
+        ]
+      },
+      {
+        "name": "JOINT_MODERATE",
+        "family": "JOINT",
+        "task": [
+          ".20",
+          ".20",
+          ".40",
+          ".20"
+        ],
+        "regime": [
+          ".20",
+          ".20",
+          ".20",
+          ".40"
+        ]
+      },
+      {
+        "name": "JOINT_SEVERE",
+        "family": "JOINT",
+        "task": [
+          ".15",
+          ".15",
+          ".55",
+          ".15"
+        ],
+        "regime": [
+          ".15",
+          ".15",
+          ".15",
+          ".55"
+        ]
+      }
+    ]
+  },
+  "tau": {
+    "numeric_features": [
+      "action_notional_fraction",
+      "market_volatility",
+      "liquidity_to_notional_ratio",
+      "estimated_slippage",
+      "portfolio_concentration",
+      "target_risk_signal",
+      "approval_to_portfolio_ratio",
+      "recent_action_count"
+    ],
+    "action_categories": [
+      "HOLD",
+      "SWAP",
+      "TRANSFER",
+      "APPROVE"
+    ],
+    "scaled_feature_order": [
+      "numeric__action_notional_fraction",
+      "numeric__market_volatility",
+      "numeric__liquidity_to_notional_ratio",
+      "numeric__estimated_slippage",
+      "numeric__portfolio_concentration",
+      "numeric__target_risk_signal",
+      "numeric__approval_to_portfolio_ratio",
+      "numeric__recent_action_count",
+      "action__action_type_HOLD",
+      "action__action_type_SWAP",
+      "action__action_type_TRANSFER",
+      "action__action_type_APPROVE"
+    ],
+    "train_only_mean": [
+      0.06179489537700967,
+      0.5279867308382377,
+      8.208619515776963e+16,
+      0.004317219542057668,
+      0.6444823501370726,
+      0.1469212220584076,
+      0.06575495339869951,
+      4.145
+    ],
+    "train_only_scale": [
+      0.10434459956919108,
+      0.275800458086675,
+      1.5007934561844272e+17,
+      0.012512697844387652,
+      0.08890729877506817,
+      0.21087407110060405,
+      0.13178294461388063,
+      2.5856607795042774
+    ],
+    "coefficients": [
+      {
+        "tau_H": "0.025",
+        "feature": "numeric__action_notional_fraction",
+        "coefficient": "0.5710977953321167"
+      },
+      {
+        "tau_H": "0.025",
+        "feature": "numeric__market_volatility",
+        "coefficient": "1.1813102396824235"
+      },
+      {
+        "tau_H": "0.025",
+        "feature": "numeric__liquidity_to_notional_ratio",
+        "coefficient": "-0.21067870685341336"
+      },
+      {
+        "tau_H": "0.025",
+        "feature": "numeric__estimated_slippage",
+        "coefficient": "0.39286639203320606"
+      },
+      {
+        "tau_H": "0.025",
+        "feature": "numeric__portfolio_concentration",
+        "coefficient": "0.021569087349006765"
+      },
+      {
+        "tau_H": "0.025",
+        "feature": "numeric__target_risk_signal",
+        "coefficient": "0.35630077293667173"
+      },
+      {
+        "tau_H": "0.025",
+        "feature": "numeric__approval_to_portfolio_ratio",
+        "coefficient": "-0.10207724783139246"
+      },
+      {
+        "tau_H": "0.025",
+        "feature": "numeric__recent_action_count",
+        "coefficient": "-0.017867156493518298"
+      },
+      {
+        "tau_H": "0.025",
+        "feature": "action__action_type_HOLD",
+        "coefficient": "-2.403912106604572"
+      },
+      {
+        "tau_H": "0.025",
+        "feature": "action__action_type_SWAP",
+        "coefficient": "0.8922920530774091"
+      },
+      {
+        "tau_H": "0.025",
+        "feature": "action__action_type_TRANSFER",
+        "coefficient": "-3.195499177328639"
+      },
+      {
+        "tau_H": "0.025",
+        "feature": "action__action_type_APPROVE",
+        "coefficient": "2.7945959022913756"
+      },
+      {
+        "tau_H": "0.025",
+        "feature": "intercept",
+        "coefficient": "-1.9125233285643606"
+      },
+      {
+        "tau_H": "0.05",
+        "feature": "numeric__action_notional_fraction",
+        "coefficient": "0.8646874672125208"
+      },
+      {
+        "tau_H": "0.05",
+        "feature": "numeric__market_volatility",
+        "coefficient": "1.2043992195192061"
+      },
+      {
+        "tau_H": "0.05",
+        "feature": "numeric__liquidity_to_notional_ratio",
+        "coefficient": "-0.34042113087514086"
+      },
+      {
+        "tau_H": "0.05",
+        "feature": "numeric__estimated_slippage",
+        "coefficient": "0.26478555662307524"
+      },
+      {
+        "tau_H": "0.05",
+        "feature": "numeric__portfolio_concentration",
+        "coefficient": "0.08373398589176079"
+      },
+      {
+        "tau_H": "0.05",
+        "feature": "numeric__target_risk_signal",
+        "coefficient": "0.3743735004392883"
+      },
+      {
+        "tau_H": "0.05",
+        "feature": "numeric__approval_to_portfolio_ratio",
+        "coefficient": "0.08632658870950287"
+      },
+      {
+        "tau_H": "0.05",
+        "feature": "numeric__recent_action_count",
+        "coefficient": "0.09419893248854093"
+      },
+      {
+        "tau_H": "0.05",
+        "feature": "action__action_type_HOLD",
+        "coefficient": "-2.1292785990193788"
+      },
+      {
+        "tau_H": "0.05",
+        "feature": "action__action_type_SWAP",
+        "coefficient": "0.2074213322168957"
+      },
+      {
+        "tau_H": "0.05",
+        "feature": "action__action_type_TRANSFER",
+        "coefficient": "-3.216567917978526"
+      },
+      {
+        "tau_H": "0.05",
+        "feature": "action__action_type_APPROVE",
+        "coefficient": "3.048715589979884"
+      },
+      {
+        "tau_H": "0.05",
+        "feature": "intercept",
+        "coefficient": "-2.0897095948011235"
+      },
+      {
+        "tau_H": "0.1",
+        "feature": "numeric__action_notional_fraction",
+        "coefficient": "1.1714821504747484"
+      },
+      {
+        "tau_H": "0.1",
+        "feature": "numeric__market_volatility",
+        "coefficient": "0.8407900789025434"
+      },
+      {
+        "tau_H": "0.1",
+        "feature": "numeric__liquidity_to_notional_ratio",
+        "coefficient": "-0.23045672037290255"
+      },
+      {
+        "tau_H": "0.1",
+        "feature": "numeric__estimated_slippage",
+        "coefficient": "0.12092122285547058"
+      },
+      {
+        "tau_H": "0.1",
+        "feature": "numeric__portfolio_concentration",
+        "coefficient": "-0.20912231975380813"
+      },
+      {
+        "tau_H": "0.1",
+        "feature": "numeric__target_risk_signal",
+        "coefficient": "0.3853876757180838"
+      },
+      {
+        "tau_H": "0.1",
+        "feature": "numeric__approval_to_portfolio_ratio",
+        "coefficient": "0.545573019633598"
+      },
+      {
+        "tau_H": "0.1",
+        "feature": "numeric__recent_action_count",
+        "coefficient": "0.08906460097630513"
+      },
+      {
+        "tau_H": "0.1",
+        "feature": "action__action_type_HOLD",
+        "coefficient": "-1.5348156533503219"
+      },
+      {
+        "tau_H": "0.1",
+        "feature": "action__action_type_SWAP",
+        "coefficient": "-0.9262830794453278"
+      },
+      {
+        "tau_H": "0.1",
+        "feature": "action__action_type_TRANSFER",
+        "coefficient": "-2.802277287975343"
+      },
+      {
+        "tau_H": "0.1",
+        "feature": "action__action_type_APPROVE",
+        "coefficient": "2.95239572721051"
+      },
+      {
+        "tau_H": "0.1",
+        "feature": "intercept",
+        "coefficient": "-2.310980293560431"
+      }
+    ],
+    "archived_cutoffs": [
+      {
+        "tau_H": "0.025",
+        "alpha": "0.05",
+        "method": "G2",
+        "cutoff": "0.8486833810737747",
+        "cutoff_exact": "7644260317518769/9007199254740992",
+        "calibration_N": "400",
+        "cal_harm_count": "39",
+        "cal_executed": "364",
+        "cal_harmful_executed": "20",
+        "cal_empirical_risk": "0.05",
+        "cal_crc_bound": "0.05236907730673317",
+        "candidate_index": "36"
+      },
+      {
+        "tau_H": "0.025",
+        "alpha": "0.05",
+        "method": "G3",
+        "cutoff": "0.8485481448394077",
+        "cutoff_exact": "1910760554452341/2251799813685248",
+        "calibration_N": "400",
+        "cal_harm_count": "39",
+        "cal_executed": "363",
+        "cal_harmful_executed": "19",
+        "cal_empirical_risk": "0.0475",
+        "cal_crc_bound": "0.04987531172069826",
+        "candidate_index": "37"
+      },
+      {
+        "tau_H": "0.05",
+        "alpha": "0.05",
+        "method": "G2",
+        "cutoff": "0.8955094057488384",
+        "cutoff_exact": "4033015826037243/4503599627370496",
+        "calibration_N": "400",
+        "cal_harm_count": "28",
+        "cal_executed": "378",
+        "cal_harmful_executed": "20",
+        "cal_empirical_risk": "0.05",
+        "cal_crc_bound": "0.05236907730673317",
+        "candidate_index": "22"
+      },
+      {
+        "tau_H": "0.05",
+        "alpha": "0.05",
+        "method": "G3",
+        "cutoff": "0.8817273426577199",
+        "cutoff_exact": "3970946931835685/4503599627370496",
+        "calibration_N": "400",
+        "cal_harm_count": "28",
+        "cal_executed": "374",
+        "cal_harmful_executed": "19",
+        "cal_empirical_risk": "0.0475",
+        "cal_crc_bound": "0.04987531172069826",
+        "candidate_index": "26"
+      },
+      {
+        "tau_H": "0.1",
+        "alpha": "0.05",
+        "method": "G2",
+        "cutoff": "1.0",
+        "cutoff_exact": "1",
+        "calibration_N": "400",
+        "cal_harm_count": "17",
+        "cal_executed": "400",
+        "cal_harmful_executed": "17",
+        "cal_empirical_risk": "0.0425",
+        "cal_crc_bound": "0.04488778054862843",
+        "candidate_index": "0"
+      },
+      {
+        "tau_H": "0.1",
+        "alpha": "0.05",
+        "method": "G3",
+        "cutoff": "1.0",
+        "cutoff_exact": "1",
+        "calibration_N": "400",
+        "cal_harm_count": "17",
+        "cal_executed": "400",
+        "cal_harmful_executed": "17",
+        "cal_empirical_risk": "0.0425",
+        "cal_crc_bound": "0.04488778054862843",
+        "candidate_index": "0"
+      }
+    ],
+    "alpha": "0.05",
+    "thresholds": [
+      "0.025",
+      "0.05",
+      "0.1"
+    ],
+    "label_rule": "float-parsed avoidable_loss >= tau_H, exactly as the archived sensitivity; primary harm uses the original exact field",
+    "score_semantics": "expit(concatenated TRAIN-standardized numeric and full one-hot features @ archived coefficients + intercept)",
+    "source_input_sha256": "e5bc5912609bb5609c24f9b9f130d92a44438f3db41edcdfbf8974a5b3a15d7f",
+    "source_program_sha256": "cb1ac0d9ac612cf3f1319ebd31765e57331ce548d10c4640c4a7e9b38db92bf2",
+    "source_coefficient_sha256": "c6497e7982c04b123487b468ef323ce16f2037636a0508a5f180f01fa67d33be",
+    "source_cutoff_sha256": "20cd398d39f1c7a54985c72eb962f72751444a019a02b835c95661609730669d",
+    "frozen_preprocessing_model_sha256": "1e4a31b4888e728480fc791a5550c6df0595c69c7ded4039c1915050a3f58297",
+    "scope": "Replay archived fitted coefficients only; no new fit, LLM proposal, or experiment. The tau=0.05 historical sensitivity refit is separate from frozen primary scoring."
+  },
+  "analysis_scope": {
+    "primary": "Frozen primary evaluation; intervals resample the original evaluation episodes",
+    "task_auc": "Retrospective task-by-label stratified resampling",
+    "calibration_size": "Post-primary sensitivity using the original CAL subsamples",
+    "risk_budget": "Archived post-primary alpha sweep; primary policy unchanged",
+    "composition": "Post-primary in-support category reweighting of TEST+confirmation; no new distribution experiment",
+    "tau": "Archived post-primary harm-definition sensitivity; replay coefficients without fitting"
+  }
+}

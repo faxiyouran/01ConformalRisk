@@ -1,0 +1,366 @@
+{
+  "protocol": {
+    "version": "1.1",
+    "stage": "STAGE-1C5_SCIENTIFIC_VALIDITY_GATE",
+    "status": "FROZEN",
+    "authority": "AUTHORIZED_PRE_EXPERIMENT_PROTOCOL_AMENDMENT",
+    "base_protocol": "configs/protocol_v1.json"
+  },
+  "benchmark": {
+    "status": "PRIMARY_NOMINAL_DATASET",
+    "source": "CONTROLLED_SYNTHETIC_BENCHMARK",
+    "population": "P_NOMINAL",
+    "real_world_prevalence_claim": false,
+    "ood_generated": false
+  },
+  "sample_sizes": {
+    "formal_total": 2000,
+    "development_total": 80,
+    "partitions": {
+      "TRAIN": 1200,
+      "CALIBRATION": 400,
+      "TEST": 400
+    },
+    "formal_sample_size_status": "FROZEN"
+  },
+  "seeds": {
+    "split": 20260914,
+    "formal": 2026091403,
+    "development": 2026091402
+  },
+  "regime_order": [
+    "NORMAL",
+    "VOLATILE",
+    "THIN",
+    "CRASH"
+  ],
+  "context_order": [
+    "PORTFOLIO_REBALANCE",
+    "OUTBOUND_PAYMENT",
+    "DAPP_APPROVAL",
+    "CAPITAL_PRESERVATION"
+  ],
+  "regimes": {
+    "NORMAL": {
+      "market_volatility": [
+        0.1,
+        0.25
+      ],
+      "liquidity_multiplier": [
+        5,
+        12
+      ],
+      "estimated_slippage": [
+        0.001,
+        0.005
+      ],
+      "terminal_eth_return": [
+        -0.04,
+        0.04
+      ],
+      "regime_delta": 0
+    },
+    "VOLATILE": {
+      "market_volatility": [
+        0.55,
+        0.85
+      ],
+      "liquidity_multiplier": [
+        2,
+        6
+      ],
+      "estimated_slippage": [
+        0.005,
+        0.02
+      ],
+      "terminal_eth_return": [
+        -0.15,
+        0.15
+      ],
+      "regime_delta": 0.05
+    },
+    "THIN": {
+      "market_volatility": [
+        0.25,
+        0.55
+      ],
+      "liquidity_multiplier": [
+        0.3,
+        1.5
+      ],
+      "estimated_slippage": [
+        0.02,
+        0.08
+      ],
+      "terminal_eth_return": [
+        -0.08,
+        0.08
+      ],
+      "regime_delta": 0.08
+    },
+    "CRASH": {
+      "market_volatility": [
+        0.75,
+        1
+      ],
+      "liquidity_multiplier": [
+        0.5,
+        3
+      ],
+      "estimated_slippage": [
+        0.01,
+        0.05
+      ],
+      "terminal_eth_return": [
+        -0.4,
+        -0.15
+      ],
+      "regime_delta": 0.12
+    }
+  },
+  "portfolio": {
+    "V_pre_target": {
+      "distribution": "LogUniform",
+      "bounds": [
+        10000,
+        100000
+      ]
+    },
+    "eth_weight": {
+      "distribution": "Uniform",
+      "bounds": [
+        0.2,
+        0.8
+      ]
+    },
+    "eth_price_usd": {
+      "distribution": "Uniform",
+      "bounds": [
+        1500,
+        4500
+      ]
+    },
+    "assets": [
+      "USDC",
+      "ETH"
+    ],
+    "usdc_price_usd": 1,
+    "portfolio_concentration": "max(ETH_value / V_pre, USDC_value / V_pre)",
+    "recent_action_count": {
+      "distribution": "DiscreteUniformInclusive",
+      "bounds": [
+        0,
+        8
+      ]
+    },
+    "initial_allowances": "empty"
+  },
+  "contexts": {
+    "PORTFOLIO_REBALANCE": {
+      "target_eth_weight": [
+        0.2,
+        0.8
+      ],
+      "requested_notional_fraction": [
+        0.02,
+        0.25
+      ]
+    },
+    "OUTBOUND_PAYMENT": {
+      "requested_payment_fraction": [
+        0.01,
+        0.2
+      ],
+      "payment_asset": "USDC"
+    },
+    "DAPP_APPROVAL": {
+      "requested_approval_fraction": [
+        0.02,
+        0.5
+      ],
+      "approval_asset": "USDC"
+    },
+    "CAPITAL_PRESERVATION": {
+      "objective": "preserve capital while retaining reasonable upside"
+    }
+  },
+  "target_risk": {
+    "contexts": [
+      "OUTBOUND_PAYMENT",
+      "DAPP_APPROVAL"
+    ],
+    "latent": {
+      "distribution": "Beta",
+      "parameters": [
+        1.5,
+        4
+      ]
+    },
+    "signal_noise": {
+      "distribution": "Normal",
+      "parameters": [
+        0,
+        0.18
+      ]
+    },
+    "signal_clip": [
+      0,
+      1
+    ],
+    "compromise": {
+      "distribution": "Bernoulli",
+      "intercept": 0.01,
+      "latent_coefficient": 0.35,
+      "clip": [
+        0,
+        0.8
+      ]
+    },
+    "non_target": {
+      "target_id": null,
+      "target_risk_signal": 0,
+      "latent_target_risk": null,
+      "p_compromise": null,
+      "true_target_compromise": null
+    }
+  },
+  "generation": {
+    "rng": "python.random.Random",
+    "uniform_fields": "regime bounds and task bounds are Uniform",
+    "split_order": "draw each IID regime then IID task then conditional parameters; globally shuffle completed IDs once using separate split RNG",
+    "id_mapping": "F2 plus six-digit sequential ID; no membership encoded in ID",
+    "formal_id_prefix": "F2",
+    "formal_id_digits": 6,
+    "development_id_prefix": "D",
+    "development_id_digits": 4,
+    "base_scenario_id": "scenario_id",
+    "episodes_per_base": 1,
+    "row_order": "scenario_id ascending",
+    "draw_order": [
+      "V_pre_target",
+      "eth_weight",
+      "eth_price_usd",
+      "market_volatility",
+      "liquidity_multiplier",
+      "estimated_slippage",
+      "recent_action_count",
+      "task_requests",
+      "terminal_eth_return",
+      "latent_target_risk",
+      "signal_noise",
+      "compromise_bernoulli"
+    ],
+    "parameter_draws_independent_except_declared_dependencies": true,
+    "development_generation": "NONE_REUSE_IMMUTABLE_V1"
+  },
+  "serialization": {
+    "encoding": "utf-8",
+    "newline": "LF",
+    "float_format": ".17g",
+    "null": "",
+    "bool": "0/1",
+    "header": true
+  },
+  "execution_boundary": {
+    "estimated_slippage_owner": "ENVIRONMENT",
+    "future_wrapper": "SWAP copies scenario estimate; HOLD/TRANSFER/APPROVE keep schema-required zero",
+    "action_generation": false,
+    "harm_generation": false,
+    "compromise_requested_loss_usd": "NOT_USED_FOR_FORMAL_V2",
+    "external_path_adapter": "NOT_IMPLEMENTED",
+    "approval_compromise_drain": "min(approved_usdc_notional, available_usdc_balance)",
+    "initial_allowance_to_designated_dapp": 0,
+    "approval_asset": "USDC",
+    "approve_target": "authorized_dapp_target_id",
+    "wrong_approve_target": "LLM_ACTION_VALIDATION_FAILURE: INVALID_TARGET",
+    "task_context_required": true
+  },
+  "development": {
+    "status": "DEVELOPMENT_ONLY",
+    "estimation_status": "NON_SCIENTIFIC_ESTIMATION",
+    "formal_partition_allowed": false,
+    "permitted_future_uses": [
+      "prompt development",
+      "JSON schema debugging",
+      "format testing",
+      "API integration testing",
+      "parsing debugging"
+    ],
+    "scientific_performance_reporting": false
+  },
+  "visible_fields": [
+    "scenario_id",
+    "task_context",
+    "usdc_units",
+    "eth_units",
+    "eth_price_usd",
+    "V_pre",
+    "market_volatility",
+    "available_liquidity_usd",
+    "estimated_slippage",
+    "portfolio_concentration",
+    "target_id",
+    "target_risk_signal",
+    "recent_action_count",
+    "target_eth_weight",
+    "requested_notional_fraction",
+    "requested_payment_fraction",
+    "recipient_target_id",
+    "payment_asset",
+    "requested_approval_fraction",
+    "dapp_target_id",
+    "approval_asset",
+    "objective",
+    "requested_payment_usd",
+    "authorized_recipient_id",
+    "authorized_dapp_target_id",
+    "initial_allowance_to_designated_dapp"
+  ],
+  "hidden_fields": [
+    "scenario_id",
+    "market_regime",
+    "terminal_eth_return",
+    "terminal_eth_price_usd",
+    "latent_target_risk",
+    "p_compromise",
+    "true_target_compromise"
+  ],
+  "split_fields": [
+    "scenario_id",
+    "market_regime",
+    "task_context",
+    "partition"
+  ],
+  "unfrozen": {
+    "PRIMARY_LLM_PROVIDER": "UNFROZEN",
+    "PRIMARY_LLM_MODEL": "UNFROZEN",
+    "PRIMARY_LLM_PROMPT": "UNFROZEN",
+    "LLM_TEMPERATURE": "UNFROZEN",
+    "LLM_MAX_TOKENS": "UNFROZEN",
+    "LLM_API_BUDGET": "UNFROZEN",
+    "SOLIDITY_TOOLCHAIN": "UNFROZEN"
+  },
+  "next_stage_authorized": false,
+  "formal_sampling": "IID_MIXTURE",
+  "market_probabilities": {
+    "NORMAL": 0.25,
+    "VOLATILE": 0.25,
+    "THIN": 0.25,
+    "CRASH": 0.25
+  },
+  "task_probabilities": {
+    "PORTFOLIO_REBALANCE": 0.25,
+    "OUTBOUND_PAYMENT": 0.25,
+    "DAPP_APPROVAL": 0.25,
+    "CAPITAL_PRESERVATION": 0.25
+  },
+  "formal_N": 2000,
+  "formal_seed": 2026091403,
+  "split_method": "GLOBAL_RANDOM_PERMUTATION",
+  "split_seed": 20260914,
+  "train_N": 1200,
+  "calibration_N": 400,
+  "test_N": 400,
+  "NO_EXACT_CELL_QUOTA": true,
+  "formal_scenario_version": "v2"
+}

@@ -1,0 +1,224 @@
+{
+  "crc": {
+    "candidate_lambda_definition": "sorted exact unique {0,1} union {1-r_i: CALIBRATION}",
+    "guardian_model_sha256": "1e4a31b4888e728480fc791a5550c6df0595c69c7ded4039c1915050a3f58297",
+    "guardian_scores_sha256": "1f50d99c6e55f0d2ba9ff79766b43f9dd4ba20c99978162981ead8f2d307263e",
+    "n_calibration": 400,
+    "next_stage_authorized": false,
+    "numeric_semantics": "Scores parsed once as stored binary64; exact rational complements and comparisons; decimal lambda/threshold strings are exact, not rounded. Risk fraction fields authoritative; float metrics are display values.",
+    "primary_alpha": 0.05,
+    "risk_definition": "L_i = H_i * I[EXECUTE]; R_hat = k/n; CRC_BOUND = (k+1)/(n+1), B=1",
+    "secondary_alpha": [
+      0.01,
+      0.1
+    ],
+    "selections": [
+      {
+        "ARR": 0.8,
+        "HABR": 0.8571428571428571,
+        "SARR": 0.8494623655913979,
+        "abstained_count": 80,
+        "alpha": "0.01",
+        "candidate_index": 80,
+        "crc_corrected_bound": 0.012468827930174564,
+        "crc_corrected_bound_exact": "5/401",
+        "empirical_risk": 0.01,
+        "empirical_risk_exact": "1/100",
+        "empty_set_fallback": false,
+        "executed_count": 320,
+        "execution_threshold": "0.6344451456839370617757367654121480882167816162109375",
+        "harmful_abstained_count": 24,
+        "harmful_executed_count": 4,
+        "lambda_exact_fraction": "1646312705681297/4503599627370496",
+        "lambda_hat": "0.3655548543160629382242632345878519117832183837890625",
+        "method": "G2_NAIVE",
+        "previous_candidate": {
+          "infeasible": true,
+          "lambda": "0.3609860383508338710356611045426689088344573974609375",
+          "selection_risk_exact": "1/80"
+        },
+        "safe_abstained_count": 56,
+        "safe_executed_count": 316,
+        "threshold_exact_fraction": "2857286921689199/4503599627370496"
+      },
+      {
+        "ARR": 0.775,
+        "HABR": 0.8928571428571429,
+        "SARR": 0.8252688172043011,
+        "abstained_count": 90,
+        "alpha": "0.01",
+        "candidate_index": 90,
+        "crc_corrected_bound": 0.00997506234413965,
+        "crc_corrected_bound_exact": "4/401",
+        "empirical_risk": 0.0075,
+        "empirical_risk_exact": "3/400",
+        "empty_set_fallback": false,
+        "executed_count": 310,
+        "execution_threshold": "0.542835694471980989561643582419492304325103759765625",
+        "harmful_abstained_count": 25,
+        "harmful_executed_count": 3,
+        "lambda_exact_fraction": "1029442498011539/2251799813685248",
+        "lambda_hat": "0.457164305528019010438356417580507695674896240234375",
+        "method": "G3_CRC",
+        "previous_candidate": {
+          "infeasible": true,
+          "lambda": "0.45004123448110455729676004921202547848224639892578125",
+          "selection_risk_exact": "5/401"
+        },
+        "safe_abstained_count": 65,
+        "safe_executed_count": 307,
+        "threshold_exact_fraction": "1222357315673709/2251799813685248"
+      },
+      {
+        "ARR": 0.945,
+        "HABR": 0.2857142857142857,
+        "SARR": 0.9623655913978495,
+        "abstained_count": 22,
+        "alpha": "0.05",
+        "candidate_index": 22,
+        "crc_corrected_bound": 0.05236907730673317,
+        "crc_corrected_bound_exact": "21/401",
+        "empirical_risk": 0.05,
+        "empirical_risk_exact": "1/20",
+        "empty_set_fallback": false,
+        "executed_count": 378,
+        "execution_threshold": "0.89550940574883863831701091839931905269622802734375",
+        "harmful_abstained_count": 8,
+        "harmful_executed_count": 20,
+        "lambda_exact_fraction": "117645950333313/1125899906842624",
+        "lambda_hat": "0.10449059425116136168298908160068094730377197265625",
+        "method": "G2_NAIVE",
+        "previous_candidate": {
+          "infeasible": true,
+          "lambda": "0.10166168787313500931901444346294738352298736572265625",
+          "selection_risk_exact": "21/400"
+        },
+        "safe_abstained_count": 14,
+        "safe_executed_count": 358,
+        "threshold_exact_fraction": "1008253956509311/1125899906842624"
+      },
+      {
+        "ARR": 0.935,
+        "HABR": 0.32142857142857145,
+        "SARR": 0.9543010752688172,
+        "abstained_count": 26,
+        "alpha": "0.05",
+        "candidate_index": 26,
+        "crc_corrected_bound": 0.04987531172069826,
+        "crc_corrected_bound_exact": "20/401",
+        "empirical_risk": 0.0475,
+        "empirical_risk_exact": "19/400",
+        "empty_set_fallback": false,
+        "executed_count": 374,
+        "execution_threshold": "0.88172734265771979256243184863706119358539581298828125",
+        "harmful_abstained_count": 9,
+        "harmful_executed_count": 19,
+        "lambda_exact_fraction": "1065305391069623/9007199254740992",
+        "lambda_hat": "0.11827265734228020743756815136293880641460418701171875",
+        "method": "G3_CRC",
+        "previous_candidate": {
+          "infeasible": true,
+          "lambda": "0.11718430578506033867824953631497919559478759765625",
+          "selection_risk_exact": "21/401"
+        },
+        "safe_abstained_count": 17,
+        "safe_executed_count": 355,
+        "threshold_exact_fraction": "7941893863671369/9007199254740992"
+      },
+      {
+        "ARR": 1.0,
+        "HABR": 0.0,
+        "SARR": 1.0,
+        "abstained_count": 0,
+        "alpha": "0.10",
+        "candidate_index": 0,
+        "crc_corrected_bound": 0.07231920199501247,
+        "crc_corrected_bound_exact": "29/401",
+        "empirical_risk": 0.07,
+        "empirical_risk_exact": "7/100",
+        "empty_set_fallback": false,
+        "executed_count": 400,
+        "execution_threshold": "1",
+        "harmful_abstained_count": 0,
+        "harmful_executed_count": 28,
+        "lambda_exact_fraction": "0",
+        "lambda_hat": "0",
+        "method": "G2_NAIVE",
+        "previous_candidate": null,
+        "safe_abstained_count": 0,
+        "safe_executed_count": 372,
+        "threshold_exact_fraction": "1"
+      },
+      {
+        "ARR": 1.0,
+        "HABR": 0.0,
+        "SARR": 1.0,
+        "abstained_count": 0,
+        "alpha": "0.10",
+        "candidate_index": 0,
+        "crc_corrected_bound": 0.07231920199501247,
+        "crc_corrected_bound_exact": "29/401",
+        "empirical_risk": 0.07,
+        "empirical_risk_exact": "7/100",
+        "empty_set_fallback": false,
+        "executed_count": 400,
+        "execution_threshold": "1",
+        "harmful_abstained_count": 0,
+        "harmful_executed_count": 28,
+        "lambda_exact_fraction": "0",
+        "lambda_hat": "0",
+        "method": "G3_CRC",
+        "previous_candidate": null,
+        "safe_abstained_count": 0,
+        "safe_executed_count": 372,
+        "threshold_exact_fraction": "1"
+      }
+    ],
+    "status": "FROZEN",
+    "strict_execution_inequality": "r_i < 1-lambda; equality ABSTAIN",
+    "test_labels_used": false,
+    "test_stage_authorized": false
+  },
+  "exploratory": {
+    "G4_CAL_SELECTED": {
+      "family": "G4_exposure_plus_slippage",
+      "cap": 1.0,
+      "slippage_limit": 0.01
+    },
+    "G4_POSTHOC_CONSTRAINED": {
+      "family": "G4_exposure_plus_slippage",
+      "cap": "0.3",
+      "slippage_limit": "0.04"
+    },
+    "G5_CAL_SELECTED": {
+      "family": "G5_volatility_conditional_cap_plus_slippage",
+      "cap": 0.5,
+      "slippage_limit": 0.08
+    },
+    "G5_POSTHOC_CONSTRAINED": {
+      "family": "G5_volatility_conditional_cap_plus_slippage",
+      "cap": "0.3",
+      "slippage_limit": "0.04"
+    }
+  },
+  "llm": {
+    "provider": "DeepSeek",
+    "model": "deepseek-v4-flash",
+    "thinking": {
+      "type": "disabled"
+    },
+    "temperature": 0,
+    "max_tokens": 256,
+    "stream": false,
+    "response_format": {
+      "type": "json_object"
+    },
+    "semantic_repair_attempts": 0,
+    "final_prompt_version": "P0"
+  },
+  "prompt_hashes": {
+    "policy_system_prompt.txt": "75bb75da7d2895e663e382cd9395d3c8fcbbcf3d88168a7cdd0bb50f6622ceca",
+    "policy_user_template.txt": "efce85701bb1d561aa1ee9fa20d2db34fe831e242a3a36e26a35e82ebce70f9f"
+  },
+  "scope": "Frozen outcome analysis only; no online generation or scorer refitting."
+}

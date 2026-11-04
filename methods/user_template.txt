@@ -1,0 +1,7 @@
+TASK STATE
+{task_state_json}
+
+ALLOWED ACTIONS
+{allowed_actions_json}
+
+Return one JSON action object only.
