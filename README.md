@@ -1,8 +1,8 @@
 # ConformalRisk: frozen simulation records and offline reproduction
 
-This local public-release candidate supports the ConformalRisk study of risk-calibrated authorization for AI-proposed decentralized-finance actions. The observations are **simulated decision opportunities**, not real customers, market transactions, or a field trial. Historical transaction proposals were generated through the DeepSeek API; the structured proposal fields, model identifiers, fallback flags, original prompts, and frozen scores preserve that provenance.
+This repository provides research data and reproducibility materials for the ConformalRisk study of risk-calibrated authorization for AI-proposed decentralized-finance actions. The observations are **simulated decision opportunities**, not real customers, market transactions, or a field trial. Historical transaction proposals were generated through the DeepSeek API; the structured proposal fields, model identifiers, fallback flags, original prompts, and frozen scores preserve that provenance.
 
-The public candidate contains saved experimental records for 4,000 episodes: TRAIN 1,200, CALIBRATION 400, TEST 400, and INDEPENDENT_CONFIRMATION 2,000. It retains all five fallback cases, including one technical failure. No replacement observations were generated.
+The repository contains saved experimental records for 4,000 episodes: TRAIN 1,200, CALIBRATION 400, TEST 400, and INDEPENDENT_CONFIRMATION 2,000. It retains all five fallback cases, including one technical failure. No replacement observations were generated.
 
 ## Files
 

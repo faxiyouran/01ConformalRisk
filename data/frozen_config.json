@@ -4,7 +4,6 @@
     "guardian_model_sha256": "1e4a31b4888e728480fc791a5550c6df0595c69c7ded4039c1915050a3f58297",
     "guardian_scores_sha256": "1f50d99c6e55f0d2ba9ff79766b43f9dd4ba20c99978162981ead8f2d307263e",
     "n_calibration": 400,
-    "next_stage_authorized": false,
     "numeric_semantics": "Scores parsed once as stored binary64; exact rational complements and comparisons; decimal lambda/threshold strings are exact, not rounded. Risk fraction fields authoritative; float metrics are display values.",
     "primary_alpha": 0.05,
     "risk_definition": "L_i = H_i * I[EXECUTE]; R_hat = k/n; CRC_BOUND = (k+1)/(n+1), B=1",
@@ -176,8 +175,7 @@
     ],
     "status": "FROZEN",
     "strict_execution_inequality": "r_i < 1-lambda; equality ABSTAIN",
-    "test_labels_used": false,
-    "test_stage_authorized": false
+    "test_labels_used": false
   },
   "exploratory": {
     "G4_CAL_SELECTED": {

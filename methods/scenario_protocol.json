@@ -1,10 +1,7 @@
 {
   "protocol": {
     "version": "1.1",
-    "stage": "STAGE-1C5_SCIENTIFIC_VALIDITY_GATE",
-    "status": "FROZEN",
-    "authority": "AUTHORIZED_PRE_EXPERIMENT_PROTOCOL_AMENDMENT",
-    "base_protocol": "configs/protocol_v1.json"
+    "status": "FROZEN"
   },
   "benchmark": {
     "status": "PRIMARY_NOMINAL_DATASET",
@@ -250,8 +247,7 @@
       "signal_noise",
       "compromise_bernoulli"
     ],
-    "parameter_draws_independent_except_declared_dependencies": true,
-    "development_generation": "NONE_REUSE_IMMUTABLE_V1"
+    "parameter_draws_independent_except_declared_dependencies": true
   },
   "serialization": {
     "encoding": "utf-8",
@@ -279,13 +275,6 @@
     "status": "DEVELOPMENT_ONLY",
     "estimation_status": "NON_SCIENTIFIC_ESTIMATION",
     "formal_partition_allowed": false,
-    "permitted_future_uses": [
-      "prompt development",
-      "JSON schema debugging",
-      "format testing",
-      "API integration testing",
-      "parsing debugging"
-    ],
     "scientific_performance_reporting": false
   },
   "visible_fields": [
@@ -331,16 +320,6 @@
     "task_context",
     "partition"
   ],
-  "unfrozen": {
-    "PRIMARY_LLM_PROVIDER": "UNFROZEN",
-    "PRIMARY_LLM_MODEL": "UNFROZEN",
-    "PRIMARY_LLM_PROMPT": "UNFROZEN",
-    "LLM_TEMPERATURE": "UNFROZEN",
-    "LLM_MAX_TOKENS": "UNFROZEN",
-    "LLM_API_BUDGET": "UNFROZEN",
-    "SOLIDITY_TOOLCHAIN": "UNFROZEN"
-  },
-  "next_stage_authorized": false,
   "formal_sampling": "IID_MIXTURE",
   "market_probabilities": {
     "NORMAL": 0.25,
